@@ -12,9 +12,9 @@ import (
 	"path/filepath"
 )
 
-var baseSenarioPath = "senarios"
+var basescenarioPath = "scenarios"
 
-type senario struct {
+type Scenario struct {
 	ID   int    `json:"id"`
 	Name string `json:"name"`
 	call `json:"call"`
@@ -35,20 +35,22 @@ type HTTPCall struct {
 
 func (h HTTPCall) Call() (*http.Response, error) {
 	switch h.Method {
-	case "POST":
+	case http.MethodGet:
+		return http.Get(h.Endpoint)
+	case http.MethodPost:
 		return http.Post(h.Endpoint, h.ContentType, bytes.NewBufferString(h.Body))
 	}
 	return nil, errors.New("Invalid method")
 }
 
 func main() {
-	// parse senarios
-	fs, err := ioutil.ReadDir(baseSenarioPath)
+	// parse scenarios
+	fs, err := ioutil.ReadDir(baseScenarioPath)
 	if err != nil {
 		panic(err)
 	}
 	for _, f := range fs {
-		absFp, err := filepath.Abs(baseSenarioPath + "/" + f.Name())
+		absFp, err := filepath.Abs(baseScenarioPath + "/" + f.Name())
 		if err != nil {
 			panic(err)
 		}
@@ -56,7 +58,7 @@ func main() {
 		if err != nil {
 			panic(err)
 		}
-		var s senario
+		var s Scenario
 		err = json.Unmarshal(fd, &s)
 		if err != nil {
 			panic(err)
