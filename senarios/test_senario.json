@@ -1,0 +1,11 @@
+{
+  "name": "test_senario",
+  "call": {
+    "httpCall":{
+      "endPoint": "http://localhost:8080",
+      "method": "POST",
+      "body": "test body"
+    }
+  },
+  "output": "testOut"
+}
