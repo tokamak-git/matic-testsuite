@@ -15,9 +15,7 @@ services:
       - "9545:8545"
     networks:
       - devnet-network
-    volumes:
-      - ./rootchain-data:/db_data
-    command: ganache-cli --hardfork istanbul --mnemonic 'clock radar mass judge dismiss just intact mind resemble fringe diary casino' --gasLimit 8000000 --gasPrice 0 -db=/db_data/
+    command: ganache-cli --hardfork istanbul --mnemonic 'clock radar mass judge dismiss just intact mind resemble fringe diary casino' --gasLimit 8000000 --gasPrice 0
 
   rabbit0:
     image: "rabbitmq:3-management"
@@ -41,7 +39,7 @@ services:
       - "26657:26657"
 
   bor0:
-    build: 
+    build:
       context: .
       dockerfile: Dockerfile-bor
       args:
@@ -65,7 +63,7 @@ services:
     ports:
       - "8545:8545"
       - "8546:8546"
-    
+
 
         #  rabbit1:
         #    image: "rabbitmq:3-management"
@@ -84,8 +82,8 @@ services:
         #      - ./devnet/node1/heimdalld:/root/.heimdalld
         #      - ./devnet/node1/heimdallcli:/root/.heimdallcli
         #      - ./logs/node1/heimdall:/root/heimdall/logs
-        #    
-        #  
+        #
+        #
         #  bor1:
         #    image: "maticnetwork/bor:develop"
         #    container_name: bor1
@@ -99,7 +97,7 @@ services:
         #    volumes:
         #      - ./devnet/node1/bor:/root/.bor
         #      - ./logs/node1/bor:/root/logs
-        #    
+        #
         #
         #  rabbit2:
         #    image: "rabbitmq:3-management"
@@ -118,8 +116,8 @@ services:
         #      - ./devnet/node2/heimdalld:/root/.heimdalld
         #      - ./devnet/node2/heimdallcli:/root/.heimdallcli
         #      - ./logs/node2/heimdall:/root/heimdall/logs
-        #    
-        #  
+        #
+        #
         #  bor2:
         #    image: "maticnetwork/bor:develop"
         #    container_name: bor2
@@ -133,7 +131,7 @@ services:
         #    volumes:
         #      - ./devnet/node2/bor:/root/.bor
         #      - ./logs/node2/bor:/root/logs
-        #    
+        #
         #
         #  rabbit3:
         #    image: "rabbitmq:3-management"
@@ -152,8 +150,8 @@ services:
         #      - ./devnet/node3/heimdalld:/root/.heimdalld
         #      - ./devnet/node3/heimdallcli:/root/.heimdallcli
         #      - ./logs/node3/heimdall:/root/heimdall/logs
-        #    
-        #  
+        #
+        #
         #  bor3:
         #    image: "maticnetwork/bor:develop"
         #    container_name: bor3
@@ -167,7 +165,7 @@ services:
         #    volumes:
         #      - ./devnet/node3/bor:/root/.bor
         #      - ./logs/node3/bor:/root/logs
-        #    
+        #
         #
         #  rabbit4:
         #    image: "rabbitmq:3-management"
@@ -186,8 +184,8 @@ services:
         #      - ./devnet/node4/heimdalld:/root/.heimdalld
         #      - ./devnet/node4/heimdallcli:/root/.heimdallcli
         #      - ./logs/node4/heimdall:/root/heimdall/logs
-        #    
-        #  
+        #
+        #
         #  bor4:
         #    image: "maticnetwork/bor:develop"
         #    container_name: bor4
@@ -201,7 +199,7 @@ services:
         #    volumes:
         #      - ./devnet/node4/bor:/root/.bor
         #      - ./logs/node4/bor:/root/logs
-        #    
+        #
         #
         #  rabbit5:
         #    image: "rabbitmq:3-management"
@@ -220,8 +218,8 @@ services:
         #      - ./devnet/node5/heimdalld:/root/.heimdalld
         #      - ./devnet/node5/heimdallcli:/root/.heimdallcli
         #      - ./logs/node5/heimdall:/root/heimdall/logs
-        #    
-        #  
+        #
+        #
         #  bor5:
         #    image: "maticnetwork/bor:develop"
         #    container_name: bor5
@@ -235,7 +233,7 @@ services:
         #    volumes:
         #      - ./devnet/node5/bor:/root/.bor
         #      - ./logs/node5/bor:/root/logs
-        #    
+        #
         #
         #  rabbit6:
         #    image: "rabbitmq:3-management"
@@ -254,8 +252,8 @@ services:
         #      - ./devnet/node6/heimdalld:/root/.heimdalld
         #      - ./devnet/node6/heimdallcli:/root/.heimdallcli
         #      - ./logs/node6/heimdall:/root/heimdall/logs
-        #    
-        #  
+        #
+        #
         #  bor6:
         #    image: "maticnetwork/bor:develop"
         #    container_name: bor6
@@ -269,7 +267,7 @@ services:
         #    volumes:
         #      - ./devnet/node6/bor:/root/.bor
         #      - ./logs/node6/bor:/root/logs
-        #    
+        #
         #
         #  rabbit7:
         #    image: "rabbitmq:3-management"
@@ -288,8 +286,8 @@ services:
         #      - ./devnet/node7/heimdalld:/root/.heimdalld
         #      - ./devnet/node7/heimdallcli:/root/.heimdallcli
         #      - ./logs/node7/heimdall:/root/heimdall/logs
-        #    
-        #  
+        #
+        #
         #  bor7:
         #    image: "maticnetwork/bor:develop"
         #    container_name: bor7
@@ -303,4 +301,4 @@ services:
         #    volumes:
         #      - ./devnet/node7/bor:/root/.bor
         #      - ./logs/node7/bor:/root/logs
-        #    
+        #
