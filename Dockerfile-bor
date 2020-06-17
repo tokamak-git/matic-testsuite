@@ -24,7 +24,7 @@ ARG HEIMDALL_URL
 COPY ./node${INDEX}/bor /root/.bor/
 COPY ./node${INDEX}/bor/nodekey /root/.bor/data/bor/
 COPY ./node${INDEX}/bor/static-nodes.json /root/.bor/data/
-COPY ./entrypoint.sh /entrypoint.sh
+COPY ./entrypoint_bor.sh /entrypoint.sh
 
 ENV DATA_DIR=$DATA_DIR
 ENV NODE_DIR=$NODE_DIR
