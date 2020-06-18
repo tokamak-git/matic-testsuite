@@ -31,9 +31,9 @@ services:
     networks:
       - devnet-network
     volumes:
-      - /tmp/devnet/node0/heimdalld:/root/.heimdalld
-      - /tmp/devnet/node0/heimdallcli:/root/.heimdallcli
-      - /tmp/logs/node0/heimdall:/root/heimdall/logs
+      - ./init_data/node0/heimdalld:/root/.heimdalld
+      - ./init_data/node0/heimdallcli:/root/.heimdallcli
+      - ./tmp/logs/node0/heimdall:/root/heimdall/logs
     ports:
       - "1317:1317"
       - "26657:26657"
@@ -65,240 +65,240 @@ services:
       - "8546:8546"
 
 
-        #  rabbit1:
-        #    image: "rabbitmq:3-management"
-        #    container_name: rabbit1
-        #    networks:
-        #      - devnet-network
-        #
-        #  heimdall1:
-        #    image: "maticnetwork/heimdall:develop"
-        #    container_name: heimdall1
-        #    depends_on:
-        #      - rabbit1
-        #    networks:
-        #      - devnet-network
-        #    volumes:
-        #      - ./devnet/node1/heimdalld:/root/.heimdalld
-        #      - ./devnet/node1/heimdallcli:/root/.heimdallcli
-        #      - ./logs/node1/heimdall:/root/heimdall/logs
-        #
-        #
-        #  bor1:
-        #    image: "maticnetwork/bor:develop"
-        #    container_name: bor1
-        #    depends_on:
-        #      - heimdall1
-        #    networks:
-        #      devnet-network:
-        #          ipv4_address: 172.20.1.101
-        #    environment:
-        #      - HEIMDALL_URL=http://heimdall1:1317
-        #    volumes:
-        #      - ./devnet/node1/bor:/root/.bor
-        #      - ./logs/node1/bor:/root/logs
-        #
-        #
-        #  rabbit2:
-        #    image: "rabbitmq:3-management"
-        #    container_name: rabbit2
-        #    networks:
-        #      - devnet-network
-        #
-        #  heimdall2:
-        #    image: "maticnetwork/heimdall:develop"
-        #    container_name: heimdall2
-        #    depends_on:
-        #      - rabbit2
-        #    networks:
-        #      - devnet-network
-        #    volumes:
-        #      - ./devnet/node2/heimdalld:/root/.heimdalld
-        #      - ./devnet/node2/heimdallcli:/root/.heimdallcli
-        #      - ./logs/node2/heimdall:/root/heimdall/logs
-        #
-        #
-        #  bor2:
-        #    image: "maticnetwork/bor:develop"
-        #    container_name: bor2
-        #    depends_on:
-        #      - heimdall2
-        #    networks:
-        #      devnet-network:
-        #          ipv4_address: 172.20.1.102
-        #    environment:
-        #      - HEIMDALL_URL=http://heimdall2:1317
-        #    volumes:
-        #      - ./devnet/node2/bor:/root/.bor
-        #      - ./logs/node2/bor:/root/logs
-        #
-        #
-        #  rabbit3:
-        #    image: "rabbitmq:3-management"
-        #    container_name: rabbit3
-        #    networks:
-        #      - devnet-network
-        #
-        #  heimdall3:
-        #    image: "maticnetwork/heimdall:develop"
-        #    container_name: heimdall3
-        #    depends_on:
-        #      - rabbit3
-        #    networks:
-        #      - devnet-network
-        #    volumes:
-        #      - ./devnet/node3/heimdalld:/root/.heimdalld
-        #      - ./devnet/node3/heimdallcli:/root/.heimdallcli
-        #      - ./logs/node3/heimdall:/root/heimdall/logs
-        #
-        #
-        #  bor3:
-        #    image: "maticnetwork/bor:develop"
-        #    container_name: bor3
-        #    depends_on:
-        #      - heimdall3
-        #    networks:
-        #      devnet-network:
-        #          ipv4_address: 172.20.1.103
-        #    environment:
-        #      - HEIMDALL_URL=http://heimdall3:1317
-        #    volumes:
-        #      - ./devnet/node3/bor:/root/.bor
-        #      - ./logs/node3/bor:/root/logs
-        #
-        #
-        #  rabbit4:
-        #    image: "rabbitmq:3-management"
-        #    container_name: rabbit4
-        #    networks:
-        #      - devnet-network
-        #
-        #  heimdall4:
-        #    image: "maticnetwork/heimdall:develop"
-        #    container_name: heimdall4
-        #    depends_on:
-        #      - rabbit4
-        #    networks:
-        #      - devnet-network
-        #    volumes:
-        #      - ./devnet/node4/heimdalld:/root/.heimdalld
-        #      - ./devnet/node4/heimdallcli:/root/.heimdallcli
-        #      - ./logs/node4/heimdall:/root/heimdall/logs
-        #
-        #
-        #  bor4:
-        #    image: "maticnetwork/bor:develop"
-        #    container_name: bor4
-        #    depends_on:
-        #      - heimdall4
-        #    networks:
-        #      devnet-network:
-        #          ipv4_address: 172.20.1.104
-        #    environment:
-        #      - HEIMDALL_URL=http://heimdall4:1317
-        #    volumes:
-        #      - ./devnet/node4/bor:/root/.bor
-        #      - ./logs/node4/bor:/root/logs
-        #
-        #
-        #  rabbit5:
-        #    image: "rabbitmq:3-management"
-        #    container_name: rabbit5
-        #    networks:
-        #      - devnet-network
-        #
-        #  heimdall5:
-        #    image: "maticnetwork/heimdall:develop"
-        #    container_name: heimdall5
-        #    depends_on:
-        #      - rabbit5
-        #    networks:
-        #      - devnet-network
-        #    volumes:
-        #      - ./devnet/node5/heimdalld:/root/.heimdalld
-        #      - ./devnet/node5/heimdallcli:/root/.heimdallcli
-        #      - ./logs/node5/heimdall:/root/heimdall/logs
-        #
-        #
-        #  bor5:
-        #    image: "maticnetwork/bor:develop"
-        #    container_name: bor5
-        #    depends_on:
-        #      - heimdall5
-        #    networks:
-        #      devnet-network:
-        #          ipv4_address: 172.20.1.105
-        #    environment:
-        #      - HEIMDALL_URL=http://heimdall5:1317
-        #    volumes:
-        #      - ./devnet/node5/bor:/root/.bor
-        #      - ./logs/node5/bor:/root/logs
-        #
-        #
-        #  rabbit6:
-        #    image: "rabbitmq:3-management"
-        #    container_name: rabbit6
-        #    networks:
-        #      - devnet-network
-        #
-        #  heimdall6:
-        #    image: "maticnetwork/heimdall:develop"
-        #    container_name: heimdall6
-        #    depends_on:
-        #      - rabbit6
-        #    networks:
-        #      - devnet-network
-        #    volumes:
-        #      - ./devnet/node6/heimdalld:/root/.heimdalld
-        #      - ./devnet/node6/heimdallcli:/root/.heimdallcli
-        #      - ./logs/node6/heimdall:/root/heimdall/logs
-        #
-        #
-        #  bor6:
-        #    image: "maticnetwork/bor:develop"
-        #    container_name: bor6
-        #    depends_on:
-        #      - heimdall6
-        #    networks:
-        #      devnet-network:
-        #          ipv4_address: 172.20.1.106
-        #    environment:
-        #      - HEIMDALL_URL=http://heimdall6:1317
-        #    volumes:
-        #      - ./devnet/node6/bor:/root/.bor
-        #      - ./logs/node6/bor:/root/logs
-        #
-        #
-        #  rabbit7:
-        #    image: "rabbitmq:3-management"
-        #    container_name: rabbit7
-        #    networks:
-        #      - devnet-network
-        #
-        #  heimdall7:
-        #    image: "maticnetwork/heimdall:develop"
-        #    container_name: heimdall7
-        #    depends_on:
-        #      - rabbit7
-        #    networks:
-        #      - devnet-network
-        #    volumes:
-        #      - ./devnet/node7/heimdalld:/root/.heimdalld
-        #      - ./devnet/node7/heimdallcli:/root/.heimdallcli
-        #      - ./logs/node7/heimdall:/root/heimdall/logs
-        #
-        #
-        #  bor7:
-        #    image: "maticnetwork/bor:develop"
-        #    container_name: bor7
-        #    depends_on:
-        #      - heimdall7
-        #    networks:
-        #      devnet-network:
-        #          ipv4_address: 172.20.1.107
-        #    environment:
-        #      - HEIMDALL_URL=http://heimdall7:1317
-        #    volumes:
-        #      - ./devnet/node7/bor:/root/.bor
-        #      - ./logs/node7/bor:/root/logs
-        #
+  #       #  rabbit1:
+  #       #    image: "rabbitmq:3-management"
+  #       #    container_name: rabbit1
+  #       #    networks:
+  #       #      - devnet-network
+  #       #
+  #       #  heimdall1:
+  #       #    image: "maticnetwork/heimdall:develop"
+  #       #    container_name: heimdall1
+  #       #    depends_on:
+  #       #      - rabbit1
+  #       #    networks:
+  #       #      - devnet-network
+  #       #    volumes:
+  #       #      - ./devnet/node1/heimdalld:/root/.heimdalld
+  #       #      - ./devnet/node1/heimdallcli:/root/.heimdallcli
+  #       #      - ./logs/node1/heimdall:/root/heimdall/logs
+  #       #
+  #       #
+  #       #  bor1:
+  #       #    image: "maticnetwork/bor:develop"
+  #       #    container_name: bor1
+  #       #    depends_on:
+  #       #      - heimdall1
+  #       #    networks:
+  #       #      devnet-network:
+  #       #          ipv4_address: 172.20.1.101
+  #       #    environment:
+  #       #      - HEIMDALL_URL=http://heimdall1:1317
+  #       #    volumes:
+  #       #      - ./devnet/node1/bor:/root/.bor
+  #       #      - ./logs/node1/bor:/root/logs
+  #       #
+  #       #
+  #       #  rabbit2:
+  #       #    image: "rabbitmq:3-management"
+  #       #    container_name: rabbit2
+  #       #    networks:
+  #       #      - devnet-network
+  #       #
+  #       #  heimdall2:
+  #       #    image: "maticnetwork/heimdall:develop"
+  #       #    container_name: heimdall2
+  #       #    depends_on:
+  #       #      - rabbit2
+  #       #    networks:
+  #       #      - devnet-network
+  #       #    volumes:
+  #       #      - ./devnet/node2/heimdalld:/root/.heimdalld
+  #       #      - ./devnet/node2/heimdallcli:/root/.heimdallcli
+  #       #      - ./logs/node2/heimdall:/root/heimdall/logs
+  #       #
+  #       #
+  #       #  bor2:
+  #       #    image: "maticnetwork/bor:develop"
+  #       #    container_name: bor2
+  #       #    depends_on:
+  #       #      - heimdall2
+  #       #    networks:
+  #       #      devnet-network:
+  #       #          ipv4_address: 172.20.1.102
+  #       #    environment:
+  #       #      - HEIMDALL_URL=http://heimdall2:1317
+  #       #    volumes:
+  #       #      - ./devnet/node2/bor:/root/.bor
+  #       #      - ./logs/node2/bor:/root/logs
+  #       #
+  #       #
+  #       #  rabbit3:
+  #       #    image: "rabbitmq:3-management"
+  #       #    container_name: rabbit3
+  #       #    networks:
+  #       #      - devnet-network
+  #       #
+  #       #  heimdall3:
+  #       #    image: "maticnetwork/heimdall:develop"
+  #       #    container_name: heimdall3
+  #       #    depends_on:
+  #       #      - rabbit3
+  #       #    networks:
+  #       #      - devnet-network
+  #       #    volumes:
+  #       #      - ./devnet/node3/heimdalld:/root/.heimdalld
+  #       #      - ./devnet/node3/heimdallcli:/root/.heimdallcli
+  #       #      - ./logs/node3/heimdall:/root/heimdall/logs
+  #       #
+  #       #
+  #       #  bor3:
+  #       #    image: "maticnetwork/bor:develop"
+  #       #    container_name: bor3
+  #       #    depends_on:
+  #       #      - heimdall3
+  #       #    networks:
+  #       #      devnet-network:
+  #       #          ipv4_address: 172.20.1.103
+  #       #    environment:
+  #       #      - HEIMDALL_URL=http://heimdall3:1317
+  #       #    volumes:
+  #       #      - ./devnet/node3/bor:/root/.bor
+  #       #      - ./logs/node3/bor:/root/logs
+  #       #
+  #       #
+  #       #  rabbit4:
+  #       #    image: "rabbitmq:3-management"
+  #       #    container_name: rabbit4
+  #       #    networks:
+  #       #      - devnet-network
+  #       #
+  #       #  heimdall4:
+  #       #    image: "maticnetwork/heimdall:develop"
+  #       #    container_name: heimdall4
+  #       #    depends_on:
+  #       #      - rabbit4
+  #       #    networks:
+  #       #      - devnet-network
+  #       #    volumes:
+  #       #      - ./devnet/node4/heimdalld:/root/.heimdalld
+  #       #      - ./devnet/node4/heimdallcli:/root/.heimdallcli
+  #       #      - ./logs/node4/heimdall:/root/heimdall/logs
+  #       #
+  #       #
+  #       #  bor4:
+  #       #    image: "maticnetwork/bor:develop"
+  #       #    container_name: bor4
+  #       #    depends_on:
+  #       #      - heimdall4
+  #       #    networks:
+  #       #      devnet-network:
+  #       #          ipv4_address: 172.20.1.104
+  #       #    environment:
+  #       #      - HEIMDALL_URL=http://heimdall4:1317
+  #       #    volumes:
+  #       #      - ./devnet/node4/bor:/root/.bor
+  #       #      - ./logs/node4/bor:/root/logs
+  #       #
+  #       #
+  #       #  rabbit5:
+  #       #    image: "rabbitmq:3-management"
+  #       #    container_name: rabbit5
+  #       #    networks:
+  #       #      - devnet-network
+  #       #
+  #       #  heimdall5:
+  #       #    image: "maticnetwork/heimdall:develop"
+  #       #    container_name: heimdall5
+  #       #    depends_on:
+  #       #      - rabbit5
+  #       #    networks:
+  #       #      - devnet-network
+  #       #    volumes:
+  #       #      - ./devnet/node5/heimdalld:/root/.heimdalld
+  #       #      - ./devnet/node5/heimdallcli:/root/.heimdallcli
+  #       #      - ./logs/node5/heimdall:/root/heimdall/logs
+  #       #
+  #       #
+  #       #  bor5:
+  #       #    image: "maticnetwork/bor:develop"
+  #       #    container_name: bor5
+  #       #    depends_on:
+  #       #      - heimdall5
+  #       #    networks:
+  #       #      devnet-network:
+  #       #          ipv4_address: 172.20.1.105
+  #       #    environment:
+  #       #      - HEIMDALL_URL=http://heimdall5:1317
+  #       #    volumes:
+  #       #      - ./devnet/node5/bor:/root/.bor
+  #       #      - ./logs/node5/bor:/root/logs
+  #       #
+  #       #
+  #       #  rabbit6:
+  #       #    image: "rabbitmq:3-management"
+  #       #    container_name: rabbit6
+  #       #    networks:
+  #       #      - devnet-network
+  #       #
+  #       #  heimdall6:
+  #       #    image: "maticnetwork/heimdall:develop"
+  #       #    container_name: heimdall6
+  #       #    depends_on:
+  #       #      - rabbit6
+  #       #    networks:
+  #       #      - devnet-network
+  #       #    volumes:
+  #       #      - ./devnet/node6/heimdalld:/root/.heimdalld
+  #       #      - ./devnet/node6/heimdallcli:/root/.heimdallcli
+  #       #      - ./logs/node6/heimdall:/root/heimdall/logs
+  #       #
+  #       #
+  #       #  bor6:
+  #       #    image: "maticnetwork/bor:develop"
+  #       #    container_name: bor6
+  #       #    depends_on:
+  #       #      - heimdall6
+  #       #    networks:
+  #       #      devnet-network:
+  #       #          ipv4_address: 172.20.1.106
+  #       #    environment:
+  #       #      - HEIMDALL_URL=http://heimdall6:1317
+  #       #    volumes:
+  #       #      - ./devnet/node6/bor:/root/.bor
+  #       #      - ./logs/node6/bor:/root/logs
+  #       #
+  #       #
+  #       #  rabbit7:
+  #       #    image: "rabbitmq:3-management"
+  #       #    container_name: rabbit7
+  #       #    networks:
+  #       #      - devnet-network
+  #       #
+  #       #  heimdall7:
+  #       #    image: "maticnetwork/heimdall:develop"
+  #       #    container_name: heimdall7
+  #       #    depends_on:
+  #       #      - rabbit7
+  #       #    networks:
+  #       #      - devnet-network
+  #       #    volumes:
+  #       #      - ./devnet/node7/heimdalld:/root/.heimdalld
+  #       #      - ./devnet/node7/heimdallcli:/root/.heimdallcli
+  #       #      - ./logs/node7/heimdall:/root/heimdall/logs
+  #       #
+  #       #
+  #       #  bor7:
+  #       #    image: "maticnetwork/bor:develop"
+  #       #    container_name: bor7
+  #       #    depends_on:
+  #       #      - heimdall7
+  #       #    networks:
+  #       #      devnet-network:
+  #       #          ipv4_address: 172.20.1.107
+  #       #    environment:
+  #       #      - HEIMDALL_URL=http://heimdall7:1317
+  #       #    volumes:
+  #       #      - ./devnet/node7/bor:/root/.bor
+  #       #      - ./logs/node7/bor:/root/logs
+  #       #
