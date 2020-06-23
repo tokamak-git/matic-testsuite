@@ -22,3 +22,5 @@ func (t TestSenario) Exec() error {
 	_, err := t.HTTPCall.Call()
 	return err
 }
+
+// funv wait
