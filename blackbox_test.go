@@ -39,19 +39,19 @@ func Test_Senarios(t *testing.T) {
 func Test_stake(t *testing.T) {
 	cCaller, _ := contractcaller.NewContractCaller()
 	// TODO: pass addresses from config
-	stakeAmount, ok := big.NewInt(0).SetString("100000000000000000000000", 10)
-	feeAmount, ok := big.NewInt(0).SetString("100000000000", 10)
+	stakeAmount, _ := big.NewInt(0).SetString("100000000000000000000000", 10)
+	feeAmount, _ := big.NewInt(0).SetString("100000000000", 10)
 	// TODO: fetch from config
 	stakingManagerAddress := "0x0"
 	maticTokenAddress := "0x0"
-	maticTokenInstance := cCaller.GetMaticTokenInstance(maticTokenAddress)
-	stakeManagerInstance := cCaller.GetStakeManagerInstance(stakingManagerAddress)
+	maticTokenInstance, _ := cCaller.GetMaticTokenInstance(common.HexToAddress(maticTokenAddress))
+	stakeManagerInstance, _ := cCaller.GetStakeManagerInstance(common.HexToAddress(stakingManagerAddress))
 
 	// Approve tokens to stake
-	cCaller.ApproveTokens(stakeAmount.Add(stakeAmount, feeAmount), stakingManagerAddress)
+	cCaller.ApproveTokens(stakeAmount.Add(stakeAmount, feeAmount), common.HexToAddress(stakingManagerAddress), common.HexToAddress(maticTokenAddress), maticTokenInstance)
 
 	// Stake
 	validatorAddress := common.HexToAddress("0x0")
 
-	cCaller.StakeFor(validatorAddress, stakeAmount, feeAmount, false, stakingManagerAddress, stakeManagerInstance)
+	cCaller.StakeFor(validatorAddress, stakeAmount, feeAmount, false, common.HexToAddress(stakingManagerAddress), stakeManagerInstance)
 }

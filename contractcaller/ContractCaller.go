@@ -2,8 +2,11 @@ package contractcaller
 
 import (
 	"context"
+	"fmt"
 	"math/big"
+	"strings"
 
+	ethereum "github.com/maticnetwork/bor"
 	"github.com/maticnetwork/bor/accounts/abi"
 	"github.com/maticnetwork/bor/accounts/abi/bind"
 	"github.com/maticnetwork/bor/common"
@@ -18,6 +21,7 @@ import (
 	"github.com/maticnetwork/heimdall/contracts/statesender"
 	"github.com/maticnetwork/heimdall/contracts/validatorset"
 	helper "github.com/maticnetwork/matic-testsuite/helper"
+	"github.com/tendermint/tendermint/crypto/secp256k1"
 )
 
 // ContractCaller contract caller
@@ -87,7 +91,7 @@ func NewContractCaller() (contractCallerObj ContractCaller, err error) {
 func (c *ContractCaller) GetRootChainInstance(rootchainAddress common.Address) (*rootchain.Rootchain, error) {
 	contractInstance, ok := c.ContractInstanceCache[rootchainAddress]
 	if !ok {
-		ci, err := rootchain.NewRootchain(rootchainAddress, mainChainClient)
+		ci, err := rootchain.NewRootchain(rootchainAddress, c.MainChainClient)
 		c.ContractInstanceCache[rootchainAddress] = ci
 		return ci, err
 	}
@@ -96,42 +100,28 @@ func (c *ContractCaller) GetRootChainInstance(rootchainAddress common.Address) (
 
 // GetStakeManagerInstance returns stakinginfo contract instance for selected base chain
 func (c *ContractCaller) GetStakeManagerInstance(stakingManagerAddress common.Address) (*stakemanager.Stakemanager, error) {
-	contractInstance, ok := c.ContractInstanceCache[stakingManagerAddress]
-	if !ok {
-		ci, err := stakemanager.NewStakemanager(stakingManagerAddress, mainChainClient)
-		c.ContractInstanceCache[stakingManagerAddress] = ci
-		return ci, err
-	}
-	return contractInstance.(*stakemanager.Stakemanager), nil
+	return stakemanager.NewStakemanager(stakingManagerAddress, c.MainChainClient)
 }
 
 // GetMaticTokenInstance returns stakinginfo contract instance for selected base chain
 func (c *ContractCaller) GetMaticTokenInstance(maticTokenAddress common.Address) (*erc20.Erc20, error) {
-	contractInstance, ok := c.ContractInstanceCache[maticTokenAddress]
-	if !ok {
-		ci, err := erc20.NewErc20(maticTokenAddress, mainChainClient)
-		c.ContractInstanceCache[maticTokenAddress] = ci
-		return ci, err
-	}
-	return contractInstance.(*erc20.Erc20), nil
+	return erc20.NewErc20(maticTokenAddress, c.MainChainClient)
 }
 
 // StakeFor stakes for a validator
 func (c *ContractCaller) StakeFor(val common.Address, stakeAmount *big.Int, feeAmount *big.Int, acceptDelegation bool, stakeManagerAddress common.Address, stakeManagerInstance *stakemanager.Stakemanager) error {
 	// TODO: pass pubkey
-	signerPubkey := ""
+	// signerPubkey := ""
 	signerPubkeyBytes := ""
 
 	// pack data based on method definition
 	data, err := c.StakeManagerABI.Pack("stakeFor", val, stakeAmount, feeAmount, acceptDelegation, signerPubkeyBytes)
 	if err != nil {
-		Logger.Error("Unable to pack tx for stakeFor", "error", err)
 		return err
 	}
 
 	auth, err := GenerateAuthObj(c.MainChainClient, stakeManagerAddress, data)
 	if err != nil {
-		Logger.Error("Unable to create auth object", "error", err)
 		return err
 	}
 
@@ -142,15 +132,14 @@ func (c *ContractCaller) StakeFor(val common.Address, stakeAmount *big.Int, feeA
 		stakeAmount,
 		feeAmount,
 		acceptDelegation,
-		signerPubkeyBytes,
+		[]byte(signerPubkeyBytes),
 	)
 
 	if err != nil {
-		Logger.Error("Error while submitting stake", "error", err)
 		return err
 	}
 
-	Logger.Info("Submitted stake sucessfully", "txHash", tx.Hash().String())
+	fmt.Println("Submitted stake sucessfully", "txHash", tx.Hash().String())
 	return nil
 }
 
@@ -158,23 +147,20 @@ func (c *ContractCaller) StakeFor(val common.Address, stakeAmount *big.Int, feeA
 func (c *ContractCaller) ApproveTokens(amount *big.Int, stakeManager common.Address, tokenAddress common.Address, maticTokenInstance *erc20.Erc20) error {
 	data, err := c.MaticTokenABI.Pack("approve", stakeManager, amount)
 	if err != nil {
-		Logger.Error("Unable to pack tx for approve", "error", err)
 		return err
 	}
 
 	auth, err := GenerateAuthObj(c.MainChainClient, tokenAddress, data)
 	if err != nil {
-		Logger.Error("Unable to create auth object", "error", err)
 		return err
 	}
 
 	tx, err := maticTokenInstance.Approve(auth, stakeManager, amount)
 	if err != nil {
-		Logger.Error("Error while approving approve", "error", err)
 		return err
 	}
 
-	Logger.Info("Sent approve tx sucessfully", "txHash", tx.Hash().String())
+	fmt.Println("Sent approve tx sucessfully", "txHash", tx.Hash().String())
 	return nil
 }
 
@@ -186,7 +172,7 @@ func GenerateAuthObj(client *ethclient.Client, address common.Address, data []by
 	}
 
 	// get priv key
-	pkObject := GetPrivKey()
+	pkObject := secp256k1.GenPrivKey()
 
 	// create ecdsa private key
 	ecdsaPrivateKey, err := crypto.ToECDSA(pkObject[:])
@@ -218,4 +204,12 @@ func GenerateAuthObj(client *ethclient.Client, address common.Address, data []by
 	auth.GasLimit = uint64(gasLimit) // uint64(gasLimit)
 
 	return
+}
+
+//
+// private abi methods
+//
+
+func getABI(data string) (abi.ABI, error) {
+	return abi.JSON(strings.NewReader(data))
 }

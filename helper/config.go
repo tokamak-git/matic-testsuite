@@ -2,7 +2,8 @@ package helper
 
 import (
 	"log"
-	"net/rpc"
+
+	"github.com/maticnetwork/bor/rpc"
 
 	"github.com/maticnetwork/bor/ethclient"
 )
@@ -14,7 +15,8 @@ import (
 // GetMainClient returns main chain's eth client
 func GetMainClient() *ethclient.Client {
 	// TODO: pass url from config
-	if mainRPCClient, err := rpc.Dial("https://goerli.infura.io/v3/a0358f426e6243528a53a8c47244c1a7"); err != nil {
+	mainRPCClient, err := rpc.Dial("https://goerli.infura.io/v3/a0358f426e6243528a53a8c47244c1a7")
+	if err != nil {
 		log.Fatalln("Unable to dial via ethClient", "URL=", "https://goerli.infura.io/v3/a0358f426e6243528a53a8c47244c1a7", "chain=eth", "Error", err)
 	}
 
@@ -25,7 +27,8 @@ func GetMainClient() *ethclient.Client {
 // GetMaticClient returns matic's eth client
 func GetMaticClient() *ethclient.Client {
 	// TODO: pass url from config
-	if maticRPCClient, err := rpc.Dial("https://rpc-mumbai.matic.today"); err != nil {
+	maticRPCClient, err := rpc.Dial("https://rpc-mumbai.matic.today")
+	if err != nil {
 		log.Fatal(err)
 	}
 
