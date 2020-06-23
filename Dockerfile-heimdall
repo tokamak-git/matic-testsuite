@@ -1,6 +1,0 @@
-FROM maticnetwork/heimdall:develop 
-
-ARG INDEX
-
-COPY ./node${INDEX}/heimdalld /root/.heimdalld
-COPY ./node${INDEX}/heimdallcli /root/.heimdallcli
